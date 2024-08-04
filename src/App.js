@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import BookCard from './components/Book';
+import Navbar from './components/Navbar';
 import './App.css';
 
 function App() {
@@ -6,23 +8,24 @@ function App() {
   const [books, setBooks] = useState([]);
 
   const fetchData = () => {
-    fetch('https://www.googleapis.com/books/v1/volumes?q=reese-book-club')
+    fetch('https://openlibrary.org/search.json?q=reese+book+club')
     .then(res => res.json())
-    .then(data => setBooks(data.items))
+    .then(data => setBooks(data.docs))
   }
 
 useEffect(() => {
   fetchData();
 }, [])
 
-console.log(books.map(book => book.volumeInfo.title))
-console.log(books.map(book => book.volumeInfo.authors))
-console.log(books.map(book => book.volumeInfo.publishedDate))
-console.log(books.map(book => book.volumeInfo.imageLinks.thumbnail))
+//console.log(books);
+//console.log(books.map(book => book.title))
 
   return (
     <div className="App">
-        <h1>HELLOOOO</h1>
+        <Navbar />
+        <div className='book-cards'>
+          {books.map(element => <BookCard book={element} />)}
+        </div>
     </div>
   );
 }
