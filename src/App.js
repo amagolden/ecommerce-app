@@ -6,6 +6,7 @@ import './App.css';
 function App() {
 
   const [books, setBooks] = useState([]);
+  const [cart, setCart] = useState([]);
 
   const fetchData = () => {
     fetch('https://openlibrary.org/search.json?q=reese%27s+book+club+pick')
@@ -17,14 +18,20 @@ function App() {
     fetchData();
   }, [])
 
-//console.log(books);
-//console.log(books.map(book => book.title))
+  const handleAddToCart = (id) => {
+    console.log('from app', id);
+  }
 
   return (
     <div className="App">
         <Navbar />
         <div className='book-cards'>
-          {books.map(element => <BookCard key={element.key} book={element} />)}
+          {books.map(element => 
+          <BookCard 
+            key={element.key} 
+            book={element} 
+            handleAddToCart={handleAddToCart} 
+          />)}
         </div>
     </div>
   );
