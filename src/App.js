@@ -19,14 +19,20 @@ function App() {
   }, [])
 
   const handleAddToCart = (id) => {
+    let updatedBook;
     const foundBook = books.find(book => book.key === id);
+    
+    updatedBook = {
+      ...foundBook,
+      isInCart: true,
+    }
 
-    setCart([...cart, foundBook]);
+    setCart([...cart, updatedBook]);
   }
 
   return (
     <div className="App">
-        <Navbar />
+        <Navbar cartCount={cart.length} />
         <div className='book-cards'>
           {books.map(element => 
           <BookCard 
