@@ -19,7 +19,9 @@ function App() {
   }, [])
 
   const handleAddToCart = (id) => {
-    console.log('from app', id);
+    const foundBook = books.find(book => book.key === id);
+
+    setCart([...cart, foundBook]);
   }
 
   return (
