@@ -24,10 +24,12 @@ function App() {
     
     updatedBook = {
       ...foundBook,
+      quantity: updatedBook?.quantity ? updatedBook.quantity++ : 1,
       isInCart: true,
     }
 
     setCart([...cart, updatedBook]);
+    setBooks(books.map(book => (book.key === id ? updatedBook : book)));
   }
 
   return (
