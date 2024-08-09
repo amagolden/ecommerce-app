@@ -21,20 +21,38 @@ function App() {
   const handleAddToCart = (id) => {
     let updatedBook;
     const foundBook = books.find(book => book.key === id);
-    
-    updatedBook = {
-      ...foundBook,
-      quantity: updatedBook?.quantity ? updatedBook.quantity++ : 1,
-      isInCart: true,
+
+    if (foundBook.isInCart) {      
+      updatedBook = {
+        ...foundBook,
+        quantity: foundBook.quantity + 1
+      }
+      setCart(cart.map(book => (book.key === id) ? updatedBook : book));
+    } else {
+      updatedBook = {
+        ...foundBook,
+        quantity: 1,
+        isInCart: true
+      }
+      setCart([...cart, updatedBook]);
     }
 
-    setCart([...cart, updatedBook]);
     setBooks(books.map(book => (book.key === id ? updatedBook : book)));
+  }
+
+  const cartCount = () => {
+    let count = 0;
+
+    cart.map(book => {
+      count += book.quantity;
+    })
+
+    return count;
   }
 
   return (
     <div className="App">
-        <Navbar cartCount={cart.length} />
+        <Navbar cartCount={cartCount()} />
         <div className='book-cards'>
           {books.map(element => 
           <BookCard 
