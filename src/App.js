@@ -16,7 +16,7 @@ function App() {
 
   useEffect(() => {
     fetchData();
-  }, [])
+    }, []);
 
   const handleAddToCart = (id) => {
     let updatedBook;
@@ -40,11 +40,40 @@ function App() {
     setBooks(books.map(book => (book.key === id ? updatedBook : book)));
   }
 
+  const handleRemoveFromCart = (id) => {
+    let updatedBook;
+    const foundBook = books.find(book => book.key === id);
+
+    if (foundBook.isInCart) {      
+      if (foundBook.quantity === 1) {
+        updatedBook = {
+        ...foundBook,
+        quantity: 0,
+        isInCart: false
+          }
+
+      const newCart = cart.filter(book => (book.key !== id));
+      setCart(newCart); 
+    } else {
+        updatedBook = {
+          ...foundBook,
+          quantity: foundBook.quantity - 1
+          }
+
+          setCart(cart.map(book => (book.key === id ? updatedBook : book)));
+    }
+  } else {
+    updatedBook = foundBook;
+  }
+
+    setBooks(books.map(book => (book.key === id ? updatedBook : book)));
+  }
+
   const cartCount = () => {
     let count = 0;
 
     cart.map(book => {
-      count += book.quantity;
+      return count += book.quantity;
     })
 
     return count;
@@ -58,7 +87,8 @@ function App() {
           <BookCard 
             key={element.key} 
             book={element} 
-            handleAddToCart={handleAddToCart} 
+            handleAddToCart={handleAddToCart}
+            handleRemoveFromCart={handleRemoveFromCart} 
           />)}
         </div>
     </div>

@@ -1,19 +1,18 @@
-const BookCard = ({ book, handleAddToCart }) => {
-    const { key, title, author_name, isbn, cover_i, cover_edition_key, id_amazon, ratings_average, isInCart } = book;
+const BookCard = ({ book, handleAddToCart, handleRemoveFromCart }) => {
+    const { key, title, author_name, cover_edition_key, id_amazon, isInCart, quantity } = book;
 
     const image_src = `https://covers.openlibrary.org/b/olid/${cover_edition_key}-M.jpg`;
-    const amazonLink = `https://amazon.com/dp/${id_amazon}`;
+    //const amazonLink = `https://amazon.com/dp/${id_amazon}`;
 
     return (
         <div className='book'>
             <img src={image_src} alt='book_cover' />
             <p>{title}</p>
             <p>{author_name}</p>
-            <p>{ratings_average}</p>
-            <button onClick={() => handleAddToCart(key)}>
-                {isInCart ? "Remove from Cart" : "Add to Cart"}
-            </button>
-            <a href={amazonLink}><button onClick={amazonLink}>Buy on Amazon</button></a>
+            <button onClick={() => handleAddToCart(key)}>Add to Cart</button>
+            <p><button onClick={() => handleRemoveFromCart(key)}>Remove from Cart</button></p>
+            <p>{isInCart ? `Quantity: ${quantity}` : 'Quantity: 0' }</p>
+            {/* <button onClick={window.open(amazonLink)}>Buy on Amazon</button> */}
         </div>
 )}
 
