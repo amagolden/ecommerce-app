@@ -11,12 +11,21 @@ function App() {
   const fetchData = () => {
     fetch('https://openlibrary.org/search.json?q=reese%27s+book+club+pick')
     .then(res => res.json())
-    .then(data => setBooks(data.docs))
-  }
+    .then(data => {
+          // Set the books with the fetched data
+          const booksWithPrices = data.docs.map(book => ({
+            ...book,
+            price: (Math.random() * (30 - 20) + 20).toFixed(2),
+          }));
+          // Set the books with the prices added
+          setBooks(booksWithPrices);
+        })
+    .catch(error => console.error("Error fetching data:", error));
+  };
 
   useEffect(() => {
-    fetchData();
-    }, []);
+    fetchData(); 
+  }, []);
 
   const handleAddToCart = (id) => {
     let updatedBook;
@@ -54,14 +63,14 @@ function App() {
 
       const newCart = cart.filter(book => (book.key !== id));
       setCart(newCart); 
-    } else {
-        updatedBook = {
-          ...foundBook,
-          quantity: foundBook.quantity - 1
-          }
+      } else {
+          updatedBook = {
+            ...foundBook,
+            quantity: foundBook.quantity - 1
+            }
 
-          setCart(cart.map(book => (book.key === id ? updatedBook : book)));
-    }
+            setCart(cart.map(book => (book.key === id ? updatedBook : book)));
+      }
   } else {
     updatedBook = foundBook;
   }
@@ -73,15 +82,32 @@ function App() {
     let count = 0;
 
     cart.map(book => {
-      return count += book.quantity;
+      count += book.quantity;
     })
 
     return count;
   }
 
+  const handleCartTotal = () => {
+    let cartTotal = 0;
+
+    cart.map(book => {
+      cartTotal += (book.quantity * book.price);
+    })
+
+    return cartTotal.toFixed(2);
+  }
+
+  useEffect(() => {
+    handleCartTotal(); 
+  }, [cart]);
+
   return (
     <div className="App">
-        <Navbar cartCount={cartCount()} />
+        <Navbar 
+          cartCount={cartCount()}
+          cartTotal={handleCartTotal()}
+         />
         <div className='book-cards'>
           {books.map(element => 
           <BookCard 
