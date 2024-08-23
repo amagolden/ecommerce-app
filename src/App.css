@@ -10,9 +10,19 @@ h1 {
   justify-content: center;
 }
 
-.book {
+/*.book {
   border: 1px solid lightgrey;
   width: 400px;
   padding: 10px;
   margin: 5px;
+}*/
+
+.cart-icon {
+  background: none;
+  border: none;
+}
+
+.card-img {
+  height: 400px;
+  object-fit: cover;
 }

@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import BookCard from './components/Book';
-import Navbar from './components/Navbar';
+import NavHeader from './components/Navbar';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
 
@@ -104,7 +106,7 @@ function App() {
 
   return (
     <div className="App">
-        <Navbar 
+        <NavHeader 
           cartCount={cartCount()}
           cartTotal={handleCartTotal()}
          />
